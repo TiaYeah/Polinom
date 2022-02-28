@@ -1,0 +1,3 @@
+D:/Git progs/Polinom/build/CMakeFiles/Test.dir
+D:/Git progs/Polinom/build/CMakeFiles/ALL_BUILD.dir
+D:/Git progs/Polinom/build/CMakeFiles/ZERO_CHECK.dir

@@ -1,15 +1,19 @@
 #pragma once
+
 #include <cstddef>
+#include <iostream>
+
+
+using namespace std;
 
 template <class T>
 struct TNode
 {
 	T Value;
-	TNode* pNext;
-	TNode(T val, TNode* p = NULL)
+	TNode* pNext;	TNode(T val, TNode* _pNext = NULL)
 	{
 		Value = val;
-		pNext = p;
+		pNext = _pNext;
 	}
 };
 
@@ -18,109 +22,175 @@ template <class T>
 class TList
 {
 protected:
-	TNode<T>* pFirst, * pLast, * pCur, * pPrev, * pStop;
+	TNode<T>* pFirst, * pLast, * pCurr, * pPrev, * pStop;
 	int len;
 public:
 	TList()
 	{
-		pFirst = pLast = pCur = pPrev = pStop = NULL;
+		pCurr = new TNode<T>(NULL);
+		pFirst = new TNode<T>(NULL);
+		pPrev = new TNode<T>(NULL);
+		pLast = new TNode<T>(NULL);
+		pStop = new TNode<T>(NULL);
+		pFirst = pLast = pCurr = pPrev = pStop;
 		len = 0;
 	}
-	~TListQueue()
+	TList(const TList<T>& list)
 	{
-		TNode<T>* temp = pFirst;
-		while (temp != NULL)
-		{
-			TNode<T>* temp1 = temp;
-			temp = temp->pNext;
-			delete temp1;
+		cout << "Конструктор копирования \n";
+		TNode<T>* node = list.pFirst;
+		TNode<T>* p, * prev = NULL;
+		pFirst = NULL;
+		while (node ->pNext != list.pStop) {
+			p = new TNode<T>(node->Value, NULL);
+			if (pFirst == NULL) {
+				pFirst = p;
+				prev = p;
+			}
+			else {
+				prev->pNext = p;
+				prev = pFirst;
+			}
+			node = node->pNext;
 		}
+		prev->pNext = node;
+		pLast = node;
+		pStop = node->pNext;
+		pPrev = list.pPrev;
+		pCurr = pPrev->pNext;
+		len = list.len;
 	}
+
+
+	~TList()
+	{
+		cout << "Деструктор \n";
+		while (pFirst!= pStop)
+		{
+			TNode<T>* del = pFirst;
+		    pFirst = pFirst->pNext;
+			delete del;
+		}
+		delete pFirst;
+	}
+
+	int getLen() { return len; }
+
 	T getCurrValue()
 	{
-		if (pCur != pStop)
-			return pCur->Value;
+		if (pCurr != pStop)
+			return pCurr->Value;
 		else
 			throw ("Список пустой");
 	}
-	void setCurrValue(const T& val)
+
+	void setCurrValue(const T& value)
 	{
-		pCur->Value = val;
+		pCurr->Value = value;
 	}
-	void insFirst(const T& el)
+
+
+
+	void insFirst(const T& value)
 	{
-		TNode<T>* newFirst = new TNode<T>(el);
-		newFirst->pNext = pFirst;
+		TNode<T>* newFirst = new TNode<T>(value, pFirst);
+		pCurr = newFirst;
 		pFirst = newFirst;
 		len++;
 		if (len == 1)
 		{
 			pLast = newFirst;
+			pLast->pNext = pStop;
 		}
 	}
 
-	bool isEmpty()
+	void insCurrent(const T& value)
 	{
-		if (len == 0)
-			return true;
-		else return false;
-	}
-	void insLast(const T& el)
-	{
-		TNode<T>* newLast = new TNode<T>(el);
-		newLast->pNext = pStop;
-		if (pLast != pStop)
-		{
-			pLast->pNext = newLast;
+		if (pCurr == pFirst) {
+			insFirst(value);
 		}
-		else
-		{
-			pFirst = newLast;
-			pLast = newLast;
+		else if (pPrev == pLast){
+			insLast(value);
+		}
+		else {
+			TNode<T>* node = new TNode<T>(value,pCurr);
+			pPrev->pNext = node;
+			pCurr = node;
+			len++;
+		}
+
+	}
+	void insLast(const T& value)
+	{
+		TNode<T>* node = new TNode<T>(value, pStop);
+		if (pLast != pStop) {
+			pLast->pNext = node;
+			pLast = node;
+		}
+		else {
+			pFirst = node;
+			pLast = node;
 		}
 		len++;
 	}
 
-	void insCurrent(TNode<T>* cur, T el)
-	{
-		TNode<T>* newEl = new TNode<T>;
-		newEl->Value = el;
-		newEl->pNext = cur->pNext;
-		cur->pNext = newEl;
-	}
-
 	void delFirst()
 	{
-		if (pFirst != NULL)
-		{
-			TNode<T>* FirstEl = pFirst;
+		if (pFirst != pStop){
+			TNode<T>* delNode = pFirst;
 			pFirst = pFirst->pNext;
-			delete FirstEl;
+			delete delNode;
+			len--;
+			if (len == 0) {
+				pLast = pStop;
+			}
 		}
+	}
+	void delCurr()
+	{
+		if (pCurr != pStop)
+			if (pCurr == pFirst) {
+				delFirst();
+			} else {
+				TNode<T>* delNode = pCurr;
+				pCurr = pCurr->pNext;
+				pPrev->pNext = pCurr;
+				delete delNode;
+				len--;
+			}
 	}
 
-	void delLast()
+	bool isEmpty()
 	{
-		TNode<T>* cur = pFirst;
-		TNode<T>* prev = pFirst;
-		while (cur->pNext != NULL)
-		{
-			prev = cur;
-			cur = cur->pNext;
-		}
-		prev->pNext = NULL;
-		delete cur;
-	}
-	int ListLength(TNode<T>* first)
-	{
-		TNode<T>* cur = first;
-		int len = 0;
-		while (cur != NULL)
-		{
-			len++;
-			cur = cur->pNext;
-		}
-		return len;
+		return (len == 0);
 	}
 
+	void reset()
+	{
+		pCurr = pFirst;
+		pPrev = pStop;
+	}
+
+	void goNext()
+	{
+		pPrev = pCurr;
+		pCurr = pCurr->pNext;
+	}
+
+
+	bool isEnd()
+	{
+		return pCurr == pStop;
+	}
+
+	friend ostream& operator<<(ostream& os, TList<T> list)
+	{
+		for (list.reset(); !list.isEnd(); list.goNext())
+		{
+			//os << list.check();
+			os << list.getCurrValue() << " ";
+		}
+		os << "\n";
+		return os;
+	}
 };
