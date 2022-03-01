@@ -10,7 +10,8 @@ template <class T>
 struct TNode
 {
 	T Value;
-	TNode* pNext;	TNode(T val, TNode* _pNext = NULL)
+	TNode* pNext;	
+	TNode(T val, TNode* _pNext = NULL)
 	{
 		Value = val;
 		pNext = _pNext;
@@ -27,44 +28,15 @@ protected:
 public:
 	TList()
 	{
-		pCurr = new TNode<T>(NULL);
-		pFirst = new TNode<T>(NULL);
-		pPrev = new TNode<T>(NULL);
-		pLast = new TNode<T>(NULL);
-		pStop = new TNode<T>(NULL);
-		pFirst = pLast = pCurr = pPrev = pStop;
+		pFirst = pLast = pCurr = pPrev = pStop = NULL;
 		len = 0;
 	}
-	TList(const TList<T>& list)
-	{
-		cout << "Конструктор копирования \n";
-		TNode<T>* node = list.pFirst;
-		TNode<T>* p, * prev = NULL;
-		pFirst = NULL;
-		while (node ->pNext != list.pStop) {
-			p = new TNode<T>(node->Value, NULL);
-			if (pFirst == NULL) {
-				pFirst = p;
-				prev = p;
-			}
-			else {
-				prev->pNext = p;
-				prev = pFirst;
-			}
-			node = node->pNext;
-		}
-		prev->pNext = node;
-		pLast = node;
-		pStop = node->pNext;
-		pPrev = list.pPrev;
-		pCurr = pPrev->pNext;
-		len = list.len;
-	}
+	
 
 
 	~TList()
 	{
-		cout << "Деструктор \n";
+		//cout << "Деструктор \n";
 		while (pFirst!= pStop)
 		{
 			TNode<T>* del = pFirst;

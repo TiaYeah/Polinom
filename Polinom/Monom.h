@@ -24,10 +24,16 @@ struct TMonom
 
 	bool operator>(const TMonom& m)
 	{
-		if (*this == m) {
-			return(coef > m.coef);
+		if (x > m.x) {
+			return true;
 		}
-		else throw("Нельзя сравнить");
+		else if (y > m.y) {
+			return true;
+		}
+		else if (z > m.z) {
+			return true;
+		}
+		else return false;
 	}
 
 	friend ostream& operator<<(ostream& os, const TMonom& m)
@@ -36,7 +42,7 @@ struct TMonom
 		return os;
 	}
 
-	friend istream& operator>>(istream& is, TMonom m)
+	friend istream& operator>>(istream& is, TMonom& m)
 	{
 		cout << "Введите коэффициент\n";
 		is >> m.coef;

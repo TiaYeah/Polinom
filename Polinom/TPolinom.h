@@ -12,6 +12,11 @@ public:
 		pHead->Value = m;
 	}
 
+	TPolinom(const TPolinom& pol)
+	{
+
+	}
+
 	void addMonom(TMonom m)
 	{
 		for (reset(); !isEnd(); goNext()) {
@@ -26,9 +31,14 @@ public:
 				insCurrent(m);
 				break;
 			}
+
+			if (m > pCurr->Value) {
+				insCurrent(m);
+				break;
+			}
 		}
-		if (m > pLast->Value) {
-			if (isEnd()) { insLast(m); }
+		if (isEnd()) { 
+			insLast(m); 
 		}
 	}
 };

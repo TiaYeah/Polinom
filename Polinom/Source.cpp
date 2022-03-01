@@ -17,7 +17,7 @@ void main() {
 
 
 	for (int i = 1; i < 3; i++) {
-		list.insFirst(i);
+		//list.insFirst(i);
 		cin >> mon;
 		polinom.addMonom(mon);
 		//headList.insFirst(i);

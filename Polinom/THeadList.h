@@ -16,15 +16,10 @@ public:
 	THeadList() 
 	{
 		pHead = new TNode<T>(NULL);
-		/*pCurr = new TNode<T>;
-		pFirst = new TNode<T>;
-		pPrev = new TNode<T>;
-		pLast = new TNode<T>;
-		pStop = new TNode<T>;
-		pHead = new TNode<T>;*/
 		pHead->pNext = pHead;
 		pCurr = pPrev = pLast = pFirst = pStop = pHead;
 		len = 0;
+		
 	}
 
 	~THeadList()
@@ -35,6 +30,7 @@ public:
 			delete node;
 		}
 		delete pHead;
+		pFirst = pStop;
 	}
 
 	void insFirst(const T& val)
