@@ -16,12 +16,6 @@ public:
 	THeadList() 
 	{
 		pHead = new TNode<T>(NULL);
-		/*pCurr = new TNode<T>;
-		pFirst = new TNode<T>;
-		pPrev = new TNode<T>;
-		pLast = new TNode<T>;
-		pStop = new TNode<T>;
-		pHead = new TNode<T>;*/
 		pHead->pNext = pHead;
 		pCurr = pPrev = pLast = pFirst = pStop = pHead;
 		len = 0;
@@ -49,12 +43,13 @@ public:
 		pHead->pNext = pFirst;
 	}
 
-	friend ostream& operator <<(ostream& os, THeadList headList)
+	friend ostream& operator <<(ostream& os, THeadList<T>& headList)
 	{
-		for (int i = 0; i < headList.getLen(); i++) {
-			cout << headList.getCurrValue() << " ";
-			headList.goNext();
+		for (headList.reset(); !headList.isEnd(); headList.goNext()) {
+			os << headList.getCurrValue() << " " ;
 		}
+		headList.reset();
+		os << "\n";
 		return os;
 	}
 };

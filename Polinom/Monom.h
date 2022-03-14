@@ -19,24 +19,44 @@ struct TMonom
 
 	bool operator==(const TMonom& m)
 	{
-		return ((x = m.x) && (y = m.y) & (z = m.z));
+		return ((x == m.x) && (y == m.y) & (z == m.z));
 	}
 
 	bool operator>(const TMonom& m)
 	{
-		if (*this == m) {
-			return(coef > m.coef);
+		if (x > m.x) {
+			return true;
 		}
-		else throw("Нельзя сравнить");
+		else if (y > m.y) {
+			return true;
+		}
+		else if (z > m.z) {
+			return true;
+		}
+		else return false;
+	}
+
+	bool operator<(const TMonom& m)
+	{
+		if (x < m.x) {
+			return true;
+		}
+		else if (y < m.y) {
+			return true;
+		}
+		else if (z < m.z) {
+			return true;
+		}
+		else return false;
 	}
 
 	friend ostream& operator<<(ostream& os, const TMonom& m)
 	{
-		os << m.coef << "x^" << m.x << "y^" << m.y << "z^" << m.z << "\n";
+		os << m.coef << "*x^" << m.x << "*y^" << m.y << "*z^" << m.z << " ";
 		return os;
 	}
 
-	friend istream& operator>>(istream& is, TMonom m)
+	friend istream& operator>>(istream& is, TMonom& m)
 	{
 		cout << "Введите коэффициент\n";
 		is >> m.coef;

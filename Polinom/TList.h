@@ -27,51 +27,19 @@ protected:
 public:
 	TList()
 	{
-		pCurr = new TNode<T>(NULL);
-		pFirst = new TNode<T>(NULL);
-		pPrev = new TNode<T>(NULL);
-		pLast = new TNode<T>(NULL);
-		pStop = new TNode<T>(NULL);
-		pFirst = pLast = pCurr = pPrev = pStop;
+		pFirst = pLast = pCurr = pPrev = pStop = NULL;
 		len = 0;
-	}
-	TList(const TList<T>& list)
-	{
-		cout << "Конструктор копирования \n";
-		TNode<T>* node = list.pFirst;
-		TNode<T>* p, * prev = NULL;
-		pFirst = NULL;
-		while (node ->pNext != list.pStop) {
-			p = new TNode<T>(node->Value, NULL);
-			if (pFirst == NULL) {
-				pFirst = p;
-				prev = p;
-			}
-			else {
-				prev->pNext = p;
-				prev = pFirst;
-			}
-			node = node->pNext;
-		}
-		prev->pNext = node;
-		pLast = node;
-		pStop = node->pNext;
-		pPrev = list.pPrev;
-		pCurr = pPrev->pNext;
-		len = list.len;
 	}
 
 
 	~TList()
 	{
-		cout << "Деструктор \n";
 		while (pFirst!= pStop)
 		{
 			TNode<T>* del = pFirst;
 		    pFirst = pFirst->pNext;
 			delete del;
 		}
-		delete pFirst;
 	}
 
 	int getLen() { return len; }
@@ -139,6 +107,7 @@ public:
 		if (pFirst != pStop){
 			TNode<T>* delNode = pFirst;
 			pFirst = pFirst->pNext;
+			pCurr = pFirst;
 			delete delNode;
 			len--;
 			if (len == 0) {
@@ -183,13 +152,14 @@ public:
 		return pCurr == pStop;
 	}
 
-	friend ostream& operator<<(ostream& os, TList<T> list)
+	friend ostream& operator<<(ostream& os, TList<T>& list)
 	{
 		for (list.reset(); !list.isEnd(); list.goNext())
 		{
 			//os << list.check();
 			os << list.getCurrValue() << " ";
 		}
+		list.reset();
 		os << "\n";
 		return os;
 	}
