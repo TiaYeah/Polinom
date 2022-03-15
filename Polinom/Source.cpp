@@ -30,41 +30,43 @@ void main() {
 		//headList.insFirst(i);
 	}
 	//TList<int> listCopy(list);
-	for (int i = 0; i < 3; i++)
-	{
+	//for (int i = 0; i < 3; i++)
+	//{
 		//list.goNext();
-	}
+	//}
 	
-	for (int i = 0;  i < 6; i++){
+	//for (int i = 0;  i < 6; i++){
 		//list.insLast(i);
 		//headList.insLast(i);
-	}
+	//}
 
 	//list.goNext();
 	//headList.goNext();
 
 	//list.goNext();
 	//headList.goNext();
-	for (int i = 0; i < 3; i++)
-	{
+	//for (int i = 0; i < 3; i++)
+	//{
 	//	list.insCurrent(8);
 		//headList.insCurrent(8);
-	}
+	//}
 	//cout << list;
 	//cout << headList;
 	//list.goNext();
 	//headList.goNext();
 	//headList.goNext();
-	for (int i = 0; i < 3; i++) {
+	//for (int i = 0; i < 3; i++) {
 		//list.delCurr();
 		//headList.delCurr();
-	}
+	//}
 	//list.insCurrent(11);
 	//list.delFirst();
 	//list.delFirst();
 	TPolinom res;
+	TMonom monom(2, 2, 2, 2);
 	cout << polinom;
 	res = polinom * 2;
+	//res = res + polinom2;
 	cout << res;
 	//cout << list;
 	//cout << headList;

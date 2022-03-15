@@ -60,13 +60,60 @@ public:
 		return res;
 	}
 
-	TPolinom operator=(TPolinom& p)
+	TPolinom operator*(const TMonom& m)
+	{
+		TPolinom res(*this);
+		res.reset();
+		while (!res.isEnd())
+		{
+			if (m.coef != 0)
+			{
+				res.pCurr->Value.coef *= m.coef;
+				res.pCurr->Value.x += m.x;
+				res.pCurr->Value.y += m.y;
+				res.pCurr->Value.z += m.z;
+				if (res.pCurr->Value.x >= 10 || res.pCurr->Value.y >= 10 || res.pCurr->Value.z >= 10)
+				{
+					throw("Выход за границу степени");
+					break;
+				}
+			}
+			else {
+				res.delCurr();
+			}
+			res.goNext();
+		}
+		return res;
+	}
+
+	TPolinom operator*(TPolinom& p)
+	{
+		TPolinom tmp1(*this);
+		TPolinom res;
+		p.reset();
+		while (!p.isEnd())
+		{
+			tmp1.reset();
+			res = res + tmp1 * p.pCurr->Value;
+			p.goNext();
+			if (!tmp1.isEnd())
+			{
+				p.reset();
+			}
+		}
+		return res;
+	}
+
+
+
+	TPolinom& operator=(TPolinom& p)
 	{
 		p.reset();
 		reset();
 		while (!isEnd())
 		{
 			delCurr();
+			goNext();
 		}
 		while (!p.isEnd())
 		{
