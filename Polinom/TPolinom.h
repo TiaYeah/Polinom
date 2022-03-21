@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "THeadList.h"
 #include "Monom.h"
 
@@ -96,10 +97,11 @@ public:
 			tmp1.reset();
 			res = res + tmp1 * p.pCurr->Value;
 			p.goNext();
+			/*
 			if (!tmp1.isEnd())
 			{
 				p.reset();
-			}
+			}*/
 		}
 		return res;
 	}
@@ -113,7 +115,6 @@ public:
 		while (!isEnd())
 		{
 			delCurr();
-			goNext();
 		}
 		while (!p.isEnd())
 		{
@@ -126,8 +127,8 @@ public:
 	TPolinom operator+(TPolinom& p)
 	{
 		TPolinom res(*this);
-		res.reset();
 		p.reset();
+		res.reset();
 		while (!p.isEnd())
 		{
 			if (res.pCurr->Value > p.pCurr->Value)
@@ -153,6 +154,65 @@ public:
 			}
 		}
 		return res;
+	}
+
+	TPolinom operator-(TPolinom& p)
+	{
+		TPolinom res(*this);
+		p.reset();
+		res.reset();
+		while (!p.isEnd())
+		{
+			if (res.pCurr->Value > p.pCurr->Value)
+				res.goNext();
+			else if (res.pCurr->Value < p.pCurr->Value)
+			{
+				res.insCurrent(p.pCurr->Value);
+				res.pCurr->Value.coef *= -1;
+				p.goNext();
+			}
+			else
+			{
+				res.pCurr->Value.coef -= p.pCurr->Value.coef;
+				if (res.pCurr->Value.coef != 0)
+				{
+					res.goNext();
+					p.goNext();
+				}
+				else
+				{
+					res.delCurr();
+					p.goNext();
+				}
+			}
+		}
+		return res;
+	}
+
+	string toString()
+	{
+		string res = "";
+		for (reset(); !isEnd(); goNext()) {
+			res += to_string((int)getCurrValue().coef) + "*x^" +  to_string(getCurrValue().x) + "*y^" + to_string(getCurrValue().y) + "*z^" + to_string(getCurrValue().z) + " ";
+			if (pCurr->pNext != pStop)
+			{
+				res += "+ ";
+			}
+		}
+		return res;
+	}
+
+	bool operator==(TPolinom& p)
+	{
+		if (getLen() != p.getLen())
+			return false;
+		while (!isEnd())
+		{
+			if (getCurrValue() == p.getCurrValue())
+				continue;
+			else return false;
+		}
+		return true;
 	}
 
 	friend ostream& operator<<(ostream& os, TPolinom& p)

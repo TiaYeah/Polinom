@@ -11,10 +11,16 @@ struct TMonom
 
 	TMonom(double _coef = 0, int _x = -1, int _y = 0, int _z = 0)
 	{
-		coef = _coef;
-		x = _x;
-		y = _y;
-		z = _z;
+		if (_x >= 10 || _x < -1 || _y >= 10 || _y < 0 || _z >= 10 || _z < 0)
+		{
+			throw("Выход за границу степени");
+		}
+		else {
+			coef = _coef;
+			x = _x;
+			y = _y;
+			z = _z;
+		}
 	}
 
 	bool operator==(const TMonom& m)
@@ -58,10 +64,22 @@ struct TMonom
 
 	friend istream& operator>>(istream& is, TMonom& m)
 	{
+		int inputx, inputy, inputz;
 		cout << "Введите коэффициент\n";
 		is >> m.coef;
 		cout << "Введите степени x, y, z \n";
-		is >> m.x >> m.y >> m.z;
+		is >> inputx >> inputy >> inputz;
+
+		if (inputx >= 10 || inputx < 0 || inputy >= 10 || inputy < 0 || inputz >= 10 || inputz < 0)
+		{
+			throw("Выход за границу степени");
+		}
+		else {
+			m.x = inputx;
+			m.y = inputy;
+			m.z = inputz;
+		}
+
 		return is;
 	}
 };

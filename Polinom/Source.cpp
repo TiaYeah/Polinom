@@ -13,7 +13,7 @@ void main() {
 	THeadList<int> headList;
 	TMonom mon;
 	TPolinom polinom, polinom2;
-
+	// 1 1 2 3 2 2 3 4 3 3 4 5 5 1 1 1
 
 
 
@@ -25,8 +25,8 @@ void main() {
 	}
 	for (int i = 1; i < 3; i++) {
 		//list.insFirst(i);
-		//cin >> mon;
-		//polinom2.addMonom(mon);
+		cin >> mon;
+		polinom2.addMonom(mon);
 		//headList.insFirst(i);
 	}
 	//TList<int> listCopy(list);
@@ -64,10 +64,19 @@ void main() {
 	//list.delFirst();
 	TPolinom res;
 	TMonom monom(2, 2, 2, 2);
-	cout << polinom;
-	res = polinom * 2;
+	cout << "Полином1 " << polinom;
+	cout << "Полином2 " << polinom2;
+	res = polinom * polinom2;
 	//res = res + polinom2;
-	cout << res;
+	cout << "Произведение полиномов " << res;
+	res = polinom * monom;
+	cout << "Умножение полинома на моном " << res;
+	res = polinom * 3;
+	cout << "Умножение полинома на число " << res;
+	res = polinom - polinom2;
+	cout << "Вычитание полиномов " << res;
+	res = polinom + polinom2;
+	cout << "Сложение полиномов " << res;
 	//cout << list;
 	//cout << headList;
 }

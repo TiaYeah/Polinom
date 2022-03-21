@@ -99,6 +99,7 @@ public:
 			pFirst = node;
 			pLast = node;
 		}
+		pCurr = node;
 		len++;
 	}
 
@@ -156,7 +157,6 @@ public:
 	{
 		for (list.reset(); !list.isEnd(); list.goNext())
 		{
-			//os << list.check();
 			os << list.getCurrValue() << " ";
 		}
 		list.reset();
