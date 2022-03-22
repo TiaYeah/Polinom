@@ -33,10 +33,10 @@ struct TMonom
 		if (x > m.x) {
 			return true;
 		}
-		else if (y > m.y) {
+		else if (y > m.y && x == m.x) {
 			return true;
 		}
-		else if (z > m.z) {
+		else if (z > m.z && x == m.x && y == m.y) {
 			return true;
 		}
 		else return false;
@@ -47,10 +47,10 @@ struct TMonom
 		if (x < m.x) {
 			return true;
 		}
-		else if (y < m.y) {
+		else if (y < m.y && x == m.x) {
 			return true;
 		}
-		else if (z < m.z) {
+		else if (z < m.z && x == m.x && y == m.y) {
 			return true;
 		}
 		else return false;

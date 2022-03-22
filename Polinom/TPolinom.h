@@ -97,11 +97,6 @@ public:
 			tmp1.reset();
 			res = res + tmp1 * p.pCurr->Value;
 			p.goNext();
-			/*
-			if (!tmp1.isEnd())
-			{
-				p.reset();
-			}*/
 		}
 		return res;
 	}
@@ -209,7 +204,9 @@ public:
 		while (!isEnd())
 		{
 			if (getCurrValue() == p.getCurrValue())
-				continue;
+			{
+				goNext();
+			}
 			else return false;
 		}
 		return true;
